@@ -17,6 +17,7 @@
 from anki.hooks import wrap
 from anki.collection import _Collection
 from aqt.utils import showInfo
+from aqt import mw
 
 # Note 1: it seems I should use mw.col instead of the private _Collection, but that seems to be a NoneType when the addon is loaded and so doesn't work
 
@@ -25,7 +26,8 @@ from aqt.utils import showInfo
 def myTimeboxReached(self, _old):
     ret = _old(self)
     if ret:
-        showInfo(("%(cards)d cards studied in %(mins)s minutes.") % dict(cards=ret[1], mins=ret[0]/60))
+        # showInfo(("%(cards)d cards studied in %(mins)s minutes.") % dict(cards=ret[1], mins=ret[0]/60))
+        mw.moveToState("overview")
     return ret
 
 _Collection.timeboxReached = wrap(_Collection.timeboxReached, myTimeboxReached, "around")
